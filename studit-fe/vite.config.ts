@@ -13,6 +13,10 @@ export default defineConfig({
       titleProp: true,
     },
     include: '**/*.svg',
-  }),],
-
+    }),],
+    resolve: {
+      alias: [
+        { find: "@", replacement: "/src" }
+      ],
+    },
 })
