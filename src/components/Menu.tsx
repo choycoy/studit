@@ -31,7 +31,7 @@ export default function Menu({ isOpen, close }: { isOpen: boolean; close: () => 
       </ul>
       <button className="cursor-pointer flex justify-center w-[343px] bg-[#FEE500] h-[44px] items-center mx-4 rounded-full mb-[52px] hover:grayscale-[35%]">
         <img alt="카카오 로고" src={kakaoLogo} />
-        <span className="ml-2 text-black opacity-85 font-bold">카카오 로그인으로 3초만에 시작하기</span>
+        <span className="ml-2 text-black opacity-85 font-bold">3초만에 카카오톡으로 시작하기</span>
       </button>
       <button className="fixed top-6 right-5 z-50 cursor-pointer" aria-label="메뉴 닫기" onClick={close}>
         <CloseIcon alt="메뉴 닫기" className="hover:text-grey-01 transition-colors" />
