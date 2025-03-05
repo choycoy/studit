@@ -1,34 +1,70 @@
 import { http, HttpResponse } from "msw";
-import { dummyStudyList } from "../data/studyMockData";
+import { dummyStudyList, dummyNotices } from "../data/studyMockData";
 
 const studyDetailHandler = [
-  http.get(`/study/:studyId`, ({ params }) => {
+  http.get("/study/:studyId", ({ params }) => {
     const studyId = Number(params.studyId);
 
     if (isNaN(studyId)) {
       return new HttpResponse(
         JSON.stringify({
           success: false,
-          message: "잘못된 요청입니다. studyId는 숫자여야 합니다.",
+          message: "Invalid request. studyId must be a number.",
         }),
         { status: 400 },
       );
     }
+
     const target = dummyStudyList.find((study) => study.roomId === studyId);
     if (!target) {
       return new HttpResponse(
         JSON.stringify({
           success: false,
-          message: `스터디 ID ${studyId}를 찾을 수 없습니다.`,
+          message: `Study ID ${studyId} not found.`,
         }),
         { status: 404 },
       );
     }
+
     return new HttpResponse(
       JSON.stringify({
         success: true,
-        message: "스터디가 조회되었습니다.",
+        message: "Study retrieved successfully.",
         data: target,
+      }),
+      { status: 200 },
+    );
+  }),
+  http.get("/study/notice/:studyId", ({ params }) => {
+    const studyId = Number(params.studyId);
+
+    if (isNaN(studyId)) {
+      return new HttpResponse(
+        JSON.stringify({
+          success: false,
+          message: "Invalid studyId. It must be a number.",
+        }),
+        { status: 400 },
+      );
+    }
+
+    const notice = dummyNotices[studyId];
+
+    if (!notice) {
+      return new HttpResponse(
+        JSON.stringify({
+          success: false,
+          message: `No notice found for studyId: ${studyId}`,
+        }),
+        { status: 404 },
+      );
+    }
+
+    return new HttpResponse(
+      JSON.stringify({
+        success: true,
+        message: "Notice retrieved successfully.",
+        data: notice,
       }),
       { status: 200 },
     );
