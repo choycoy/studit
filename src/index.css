@@ -2,6 +2,7 @@
 
 @theme {
   --color-main: #111111;
+  --color-main-hover: #333333;
   --color-grey-01: #d6d6d6;
   --color-grey-02: #bdbdbd;
 }
@@ -36,6 +37,20 @@
     box-sizing: border-box;
     font-family: "MinSans", sans-serif;
     outline-color: #111111;
+  }
+}
+@layer components {
+  .close-btn {
+    @apply hover:text-grey-01 h-3.5 w-3.5 text-white transition-colors;
+  }
+  .close-position {
+    @apply absolute -top-[26px] right-0 cursor-pointer;
+  }
+  .modal-container {
+    @apply relative flex w-[343px] flex-col items-center rounded-md bg-white p-4;
+  }
+  .btn-sm {
+    @apply bg-main hover:bg-main-hover cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium text-white transition-colors;
   }
 }
 .rammetto-one-regular {
