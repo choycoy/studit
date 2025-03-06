@@ -53,8 +53,8 @@
     @apply bg-main hover:bg-main-hover cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium text-white transition-colors;
   }
 }
-.rammetto-one-regular {
-  font-family: "Rammetto One", sans-serif;
+.bagel-fat-one-regular {
+  font-family: "Bagel Fat One", system-ui;
   font-weight: 400;
   font-style: normal;
 }

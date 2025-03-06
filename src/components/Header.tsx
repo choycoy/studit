@@ -11,7 +11,7 @@ export default function Header() {
   };
   return (
     <header className="max-w-3xl w-full h-[52px] bg-main px-4 flex items-center justify-between">
-      <img src={logoImg} alt="스터딧 로고" />
+      <img src={logoImg} alt="스터딧 로고" className="w-[87px] h-[18px]" />
       <button aria-label="메뉴" onClick={onClick}>
         <MenuIcon alt="메뉴" />
       </button>
