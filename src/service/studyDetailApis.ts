@@ -7,7 +7,7 @@ const studyDetailApis = {
     return data;
   },
   updateStudyDetail: async (studyId: number, editInfo: StudyDetail) => {
-    const { data } = await client.put(`/study/${studyId}`, {
+    const { data } = await client.patch(`/study/${studyId}`, {
       title: editInfo.title,
       description: editInfo.description,
       tags: editInfo.tags,

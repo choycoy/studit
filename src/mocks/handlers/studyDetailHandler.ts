@@ -1,11 +1,10 @@
 import { http, HttpResponse } from "msw";
 import { dummyStudyList, dummyNotices } from "../data/studyMockData";
-import { NoticeRequest } from "@/types/request";
+import { NoticeRequest, UpdateStudyRequest } from "@/types/request";
 
 const studyDetailHandler = [
   http.get("/study/:studyId", ({ params }) => {
     const studyId = Number(params.studyId);
-
     if (isNaN(studyId)) {
       return new HttpResponse(
         JSON.stringify({
@@ -32,6 +31,63 @@ const studyDetailHandler = [
         success: true,
         message: "Study retrieved successfully.",
         data: target,
+      }),
+      { status: 200 },
+    );
+  }),
+  http.patch("/study/:studyId", async ({ params, request }) => {
+    const studyId = Number(params.studyId);
+    if (isNaN(studyId)) {
+      return new HttpResponse(
+        JSON.stringify({
+          success: false,
+          message: "Invalid request. studyId must be a number.",
+        }),
+        { status: 400 },
+      );
+    }
+
+    const body = (await request.json()) as UpdateStudyRequest;
+    if (!body) {
+      return new HttpResponse(
+        JSON.stringify({
+          success: false,
+          message: "Invalid request body or missing data.",
+        }),
+        { status: 400 },
+      );
+    }
+
+    const target = dummyStudyList.find((dummyStudy) => dummyStudy.roomId === studyId);
+    if (!target) {
+      return new HttpResponse(
+        JSON.stringify({
+          success: false,
+          message: `Study ID ${studyId} not found.`,
+        }),
+        { status: 404 },
+      );
+    }
+
+    const { title, tags, description } = body;
+    if (!title) {
+      return new HttpResponse(JSON.stringify({ success: false, message: "title is required." }), { status: 400 });
+    }
+    if (!tags) {
+      return new HttpResponse(JSON.stringify({ success: false, message: "tags is required." }), { status: 400 });
+    }
+    if (!description) {
+      return new HttpResponse(JSON.stringify({ success: false, message: "description is required." }), { status: 400 });
+    }
+
+    target.description = description;
+    target.tags = tags;
+    target.title = title;
+
+    return new HttpResponse(
+      JSON.stringify({
+        success: true,
+        message: "Study detail has been successfully updated.",
       }),
       { status: 200 },
     );
