@@ -78,6 +78,10 @@
   @apply fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white drop-shadow-sm flex flex-col items-start pt-4 gap-y-4;
 }
 
+.button {
+  @apply bg-main hover:bg-main-hover h-12 cursor-pointer rounded-full text-sm font-bold text-white transition-colors w-full;
+}
+
 @keyframes slideDown {
   0% {
     transform: translateY(-3px);

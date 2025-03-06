@@ -47,9 +47,11 @@ export default function ManageNoticeModal({
           onChange={(e) => handleMaxLengthChange(e, 250, () => setInput(e.target.value))}
           className="border-main border p-2 mt-3.5 h-[200px] w-full rounded text-sm"
         />
-        <span className="mt-1 mb-1.5 self-end text-xs">{input.length}/200</span>
+        <span className="mt-1 mb-2 self-end text-xs">{input.length}/200</span>
         {!hasNotice ? (
-          <button onClick={() => createNotice()}>등록하기</button>
+          <button onClick={() => createNotice()} className="button">
+            등록하기
+          </button>
         ) : (
           <div className="flex items-center gap-x-2">
             <button
