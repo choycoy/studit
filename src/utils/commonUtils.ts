@@ -21,3 +21,12 @@ export function formatTime(seconds: number): string {
     .toString()
     .padStart(2, "0")}`;
 }
+
+export function handleMaxLengthChange(
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  maxLength: number,
+  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
+) {
+  const newValue = e.target.value;
+  if (newValue.length <= maxLength) onChange(e);
+}
