@@ -1,9 +1,9 @@
 import useGetStudyDetail from "@/hooks/study-detail/useGetStudyDetail";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { overlay } from "overlay-kit";
 import NoticeIcon from "@/assets/icons/notice.svg";
 import NoticeModal from "@/components/study-detail/NoticeModal";
-import useGetNotice from "@/hooks/study-detail/useGetNotice";
+import useGetNotice from "@/hooks/study-detail/notice/useGetNotice";
 import LightOffIcon from "@/assets/icons/light-off.svg";
 import LightOnIcon from "@/assets/icons/light-on.svg";
 import useTodoNTimers from "@/hooks/study-detail/todo-timer/useTodoNTimers";
@@ -15,6 +15,9 @@ import useTodoTimer from "@/hooks/study-detail/todo-timer/useTodoTimer";
 import useTodoActions from "@/hooks/study-detail/todo-timer/useTodoActions";
 import PlayIcon from "@/assets/icons/play.svg";
 import PauseIcon from "@/assets/icons/pause.svg";
+import { useState } from "react";
+import LeaveStudyModal from "@/components/study-detail/LeaveModal";
+import ManageNoticeModal from "@/components/study-detail/ManageNoticeModal";
 
 export default function StudyDetail() {
   const studyId = Number(useParams().studyId);
@@ -45,6 +48,10 @@ export default function StudyDetail() {
     setEditingTodo,
   } = useTodoActions(studyId);
   const { startTimer, stopTimer, activeTodoId } = useTodoTimer({ studyId, userId, setTimers, setLocalTodoList });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
   if (!studyDetail || isDetailLoading || isNoticeLoading || !todoList || todoListLoading || isTimerLoading) return null;
 
   const { title, leaderId, hasNotice } = studyDetail;
@@ -54,17 +61,68 @@ export default function StudyDetail() {
       return <NoticeModal isOpen={isOpen} close={close} notice={notice} />;
     });
   };
+  const openLeaveModal = () => {
+    toggleMenu();
+    overlay.open(({ isOpen, close }) => {
+      return <LeaveStudyModal isOpen={isOpen} close={close} />;
+    });
+  };
+  const openManageModal = () => {
+    toggleMenu();
+    overlay.open(({ isOpen, close }) => {
+      return <ManageNoticeModal isOpen={isOpen} close={close} studyId={studyId} hasNotice={hasNotice} />;
+    });
+  };
   const isLeader = leaderId === userId;
 
   return (
-    <div className="text-main pt-2.5">
+    <div className="text-main pt-2.5 relative h-full">
       <section className="pb-3 px-4">
         <div className="flex justify-between items-center">
           <h1 className="font-bold">{title}</h1>
-          <button className="bg-main text-white text-sm font-medium px-1.5 py-1.5 rounded-sm cursor-pointer hover:bg-main-hover transition-colors">
+          <button
+            className="bg-main text-white text-sm font-medium px-1.5 py-1.5 rounded-sm cursor-pointer hover:bg-main-hover transition-colors"
+            onClick={toggleMenu}
+          >
             스터디 메뉴
           </button>
         </div>
+      </section>
+      <section
+        className={`${
+          isMenuOpen ? "slide-down transition-transform duration-300 ease-in-out" : "invisible"
+        } study-menu`}
+      >
+        <button
+          onClick={() => setIsMenuOpen(false)}
+          aria-label="스터디 메뉴 닫기"
+          className="self-end close-btn cursor-pointer pr-9"
+        >
+          <CloseIcon alt="스터디 메뉴 닫기" />
+        </button>
+        <button
+          className={`flex w-full cursor-pointer items-center px-4 py-2 hover:text-grey-01 transition-colors ${
+            !isLeader && "text-grey-01"
+          }`}
+          onClick={openManageModal}
+          disabled={!isLeader}
+        >
+          공지 {hasNotice ? "수정 및 삭제" : "등록"}하기
+          <span className="rounded-full bg-white px-1.5 py-1 text-xs text-main ml-2 font-bold">스터디장</span>
+        </button>
+        <button
+          disabled={!isLeader}
+          className={`flex w-full cursor-pointer items-center px-4 py-2 hover:text-grey-01 transition-colors ${
+            !isLeader && "text-grey-01"
+          }`}
+          onClick={() => navigate(`/edit-study/${studyId}`)}
+        >
+          스터디 정보 수정
+          <span className="rounded-full bg-white px-1.5 py-1 text-xs text-main font-bold ml-2">스터디장</span>
+        </button>
+        <button className="cursor-pointer py-2 pl-4 hover:text-grey-01 transition-colors" onClick={openLeaveModal}>
+          스터디 나가기
+        </button>
       </section>
       {hasNotice && (
         <section className="mb-3 px-4">

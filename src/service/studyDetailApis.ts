@@ -23,7 +23,7 @@ const studyDetailApis = {
     return data;
   },
   editNotice: async (studyId: number, content: string) => {
-    const { data } = await client.put(`/study/notice/${studyId}`, { content: content });
+    const { data } = await client.patch(`/study/notice/${studyId}`, { content: content });
     return data;
   },
   deleteNotice: async (studyId: number) => {

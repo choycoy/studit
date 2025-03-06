@@ -7,7 +7,7 @@ export default function useGetNotice(studyId: number, hasNotice: boolean) {
     isLoading: isNoticeLoading,
     refetch: refetchNotice,
   } = useQuery({
-    queryKey: ["getNotice"],
+    queryKey: ["getNotice", studyId],
     queryFn: () => studyDetailApis.getNotice(studyId),
     enabled: hasNotice,
   });

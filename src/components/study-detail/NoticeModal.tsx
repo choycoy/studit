@@ -18,7 +18,7 @@ export default function NoticeModal({
   return (
     <ModalOverlay>
       <section className="relative flex w-[343px] flex-col items-center rounded-md bg-main p-4 text-white">
-        <div className="mb-.35 mb-3.5 flex items-center gap-x-1">
+        <div className="mb-3.5 flex items-center gap-x-1.5">
           <NoticeIcon alt="공지" />
           <p className="font-bold">스터디장이 전해요</p>
         </div>

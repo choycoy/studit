@@ -5,6 +5,8 @@
   --color-main-hover: #333333;
   --color-grey-01: #d6d6d6;
   --color-grey-02: #bdbdbd;
+  --color-grey-03: #9e9e9e;
+  --color-grey-04: #616161;
 }
 
 @font-face {
@@ -53,8 +55,40 @@
     @apply bg-main hover:bg-main-hover cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium text-white transition-colors;
   }
 }
+
 .bagel-fat-one-regular {
   font-family: "Bagel Fat One", system-ui;
   font-weight: 400;
   font-style: normal;
+}
+
+.text-input {
+  @apply border-grey-02 rounded border p-2;
+}
+
+.tag {
+  @apply bg-grey-01 min-w-max shrink-0 rounded-[10px] px-[8px] py-[3px] text-sm whitespace-nowrap;
+}
+
+.textarea {
+  @apply border-grey-01 mt-1 w-full rounded-[5px] border p-1 px-2 text-sm;
+}
+
+.study-menu {
+  @apply fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white drop-shadow-sm flex flex-col items-start pt-4 gap-y-4;
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-3px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-down {
+  animation: slideDown 0.2s ease-in-out;
 }
