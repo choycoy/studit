@@ -39,6 +39,7 @@
     box-sizing: border-box;
     font-family: "MinSans", sans-serif;
     outline-color: #111111;
+    color: #111111;
   }
 }
 @layer components {

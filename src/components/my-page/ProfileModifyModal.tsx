@@ -2,7 +2,7 @@ import ModalOverlay from "../ModalOverlay";
 import EditIcon from "@/assets/icons/edit.svg";
 import CloseIcon from "@/assets/icons/close.svg";
 import { handleMaxLengthChange, handleKeyDown } from "../../utils/commonUtils";
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import useModifyNickname from "@/hooks/my-page/useModifyNickname";
 import useModifyProfileImg from "@/hooks/my-page/useModifyProfileImg";
 import * as Sentry from "@sentry/react";
@@ -21,12 +21,17 @@ export default function ProfileModifyModal({
   userId: number;
 }) {
   const [profile, setProfile] = useState({ userImg: userImg, nickname: nickname });
+  const [isChanged, setIsChanged] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { modifyNickname } = useModifyNickname({
     currentNickname: profile.nickname,
     userId,
   });
   const { modifyProfileImg } = useModifyProfileImg({ currentImg: profile.userImg, userId });
+
+  useEffect(() => {
+    setIsChanged(userImg !== profile.userImg || nickname !== profile.nickname);
+  }, [profile, userImg, nickname]);
 
   const handleModifyProfile = async (close: () => void) => {
     try {
@@ -77,15 +82,24 @@ export default function ProfileModifyModal({
             onKeyDown={(e) => handleKeyDown(e, () => handleModifyProfile(close))}
             placeholder="변경할 닉네임 입력"
             type="text"
-            onChange={(e) => handleMaxLengthChange(e, 10, onNicknameChange)}
+            onChange={(e) => handleMaxLengthChange(e, 8, onNicknameChange)}
             className="mt-6 w-[140px] border-b border-main py-1 pl-1.5 text-sm"
             value={profile.nickname}
           />
+          <span className="text-xs self-end text-grey-04">{profile.nickname.length}/8</span>
         </div>
         <button aria-label="프로필 수정 모달 닫기" className="close-position" onClick={() => close()}>
           <CloseIcon className="close-btn" alt="프로필 수정 모달 닫기" />
         </button>
-        <button onClick={() => handleModifyProfile(close)} className="button">
+        <button
+          onClick={() => handleModifyProfile(close)}
+          disabled={!isChanged}
+          className={`${
+            isChanged
+              ? "bg-main text-white cursor-pointer hover:bg-main-hover "
+              : "bg-grey-02 text-grey-04 cursor-not-allowed"
+          } h-12 rounded-full text-sm font-bold transition-colors w-full`}
+        >
           수정하기
         </button>
       </section>
