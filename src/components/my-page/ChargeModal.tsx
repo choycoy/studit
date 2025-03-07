@@ -52,7 +52,7 @@ export default function ChargeModal({
             }}
             onKeyDown={(e) => handleKeyDown(e, () => handleInput())}
           />
-          <p className={`text-xs font-medium ${shaking ? "shake" : ""}`}>*충전은 100P 단위로 가능해요</p>
+          <p className={`text-xs font-medium ${shaking ? "shake" : ""}`}>*충전은 100P 단위로 가능해요.</p>
         </div>
         <button onClick={handleInput} className="button">
           충전하기
