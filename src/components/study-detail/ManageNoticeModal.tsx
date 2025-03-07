@@ -53,7 +53,7 @@ export default function ManageNoticeModal({
             등록하기
           </button>
         ) : (
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-2 text-sm">
             <button
               className="text-grey-04 bg-grey-01 hover:bg-grey-02 cursor-pointer rounded-md px-2.5 py-1.5 font-medium transition-colors"
               onClick={() => deleteNotice()}
