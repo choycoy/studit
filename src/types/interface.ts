@@ -41,3 +41,60 @@ export interface StudyDetail {
   description: string;
   tags: string[];
 }
+export interface UpcomingStudyItem extends StudyItem {
+  recruit_id: number;
+}
+export interface OnGoingStudyItem extends StudyItem {
+  registerId: number;
+}
+export interface CompletedStudyItem extends StudyItem {
+  studyId: number;
+  deductedPoint: number;
+  obtainedPoint: number;
+}
+export interface StudyItem {
+  gatherDate: string;
+  title: string;
+  enterPoint: number;
+  tag: string;
+  weeklyStudyTime: number;
+  category: string;
+}
+export interface UserProfile {
+  userId: number;
+  nickname: string;
+  points: number;
+  applied: number;
+  in_progress: number;
+  completed: number;
+  profileImage: string;
+}
+export interface IUserPoints {
+  userId: number;
+  totalPoints: number;
+  totalRewardPoints: number;
+  totalDeductedPoints: number;
+  totalWithdrawnPoints: number;
+}
+export interface GroupedByDate {
+  date: string;
+  records: PointRecord[];
+}
+export interface PointRecord {
+  id: number;
+  type: PointFilterType;
+  amount: number;
+  total_after: number;
+  time: string;
+}
+export type PointFilterType = "전체" | "충전" | "차감" | "출금" | "보상" | "환불";
+export interface PointRequest extends Record<string, unknown> {
+  amount: number;
+}
+export interface AvgStats {
+  userId: number;
+  userTodoCompletion: number | null;
+  averageTodoCompletion: number;
+  userGoalRate: number | null;
+  averageGoalRate: number;
+}

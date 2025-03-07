@@ -1,5 +1,7 @@
 import studyDetailHandler from "./studyDetailHandler";
 import todoHandler from "./todoHandler";
 import timeHandler from "./timerHandler";
-const handlers = [...studyDetailHandler, ...todoHandler, ...timeHandler];
+import myPageHandler from "./myPageHandler";
+import pointHandler from "./pointHandler";
+const handlers = [...studyDetailHandler, ...todoHandler, ...timeHandler, ...myPageHandler, ...pointHandler];
 export default handlers;

@@ -30,3 +30,13 @@ export function handleMaxLengthChange(
   const newValue = e.target.value;
   if (newValue.length <= maxLength) onChange(e);
 }
+
+export function handleKeyDown(
+  e: React.KeyboardEvent<HTMLInputElement | HTMLButtonElement | HTMLTextAreaElement>,
+  onButtonClick: () => void,
+) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    onButtonClick();
+  }
+}
