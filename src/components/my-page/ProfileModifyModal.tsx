@@ -77,10 +77,11 @@ export default function ProfileModifyModal({
             onKeyDown={(e) => handleKeyDown(e, () => handleModifyProfile(close))}
             placeholder="변경할 닉네임 입력"
             type="text"
-            onChange={(e) => handleMaxLengthChange(e, 10, onNicknameChange)}
+            onChange={(e) => handleMaxLengthChange(e, 8, onNicknameChange)}
             className="mt-6 w-[140px] border-b border-main py-1 pl-1.5 text-sm"
             value={profile.nickname}
           />
+          <span className="text-xs self-end">{profile.nickname.length}/8</span>
         </div>
         <button aria-label="프로필 수정 모달 닫기" className="close-position" onClick={() => close()}>
           <CloseIcon className="close-btn" alt="프로필 수정 모달 닫기" />
