@@ -35,15 +35,17 @@ export default function ChargeModal({
   return (
     <ModalOverlay>
       <section className="modal-container">
-        <p className="text-main-text mb-3.5 font-bold">포인트를 충전해요</p>
+        <p className="mb-3.5 font-bold">포인트를 충전해요</p>
         <p className="mb-1 self-start">
           현재 보유한 포인트<span className="ml-1 font-medium">{currentPoint.toLocaleString()} P</span>{" "}
         </p>
-        <div className="mb-3 flex w-full flex-col gap-y-2">
-          <label htmlFor="chargePoint">충전할 포인트</label>
+        <div className="mb-4 flex w-full flex-col">
+          <label htmlFor="chargePoint" className="mb-1">
+            충전할 포인트
+          </label>
           <input
             id="chargePoint"
-            className="text-input2"
+            className="text-input2 mb-1"
             value={inputPoint.toLocaleString()}
             placeholder="충전할 포인트"
             onChange={(e) => {
