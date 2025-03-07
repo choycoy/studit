@@ -21,3 +21,6 @@ export interface UpdateStudyRequest extends Record<string, unknown> {
   tags: string[];
   description: string;
 }
+export interface ModifyNicknameRequest {
+  nickname: string;
+}
