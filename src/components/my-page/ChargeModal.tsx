@@ -35,9 +35,9 @@ export default function ChargeModal({
   return (
     <ModalOverlay>
       <section className="modal-container">
-        <p className="mb-3.5 font-bold">포인트를 충전해요</p>
+        <p className="mb-3.5 font-bold text-main">포인트를 충전해요</p>
         <p className="mb-1 self-start">
-          현재 보유한 포인트<span className="ml-1 font-medium">{currentPoint.toLocaleString()} P</span>{" "}
+          현재 보유한 포인트<span className="ml-1 font-medium text-main">{currentPoint.toLocaleString()} P</span>{" "}
         </p>
         <div className="mb-4 flex w-full flex-col">
           <label htmlFor="chargePoint" className="mb-1">

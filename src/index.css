@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-main: #111111;
-  --color-main-hover: #333333;
+  --color-main: #38cac4;
+  --color-main-hover: #46d1cb;
   --color-grey-01: #d6d6d6;
   --color-grey-02: #bdbdbd;
   --color-grey-03: #9e9e9e;
   --color-grey-04: #616161;
+  --color-grey-05: #333333;
 }
 
 @font-face {
@@ -38,8 +39,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "MinSans", sans-serif;
-    outline-color: #111111;
-    color: #111111;
+    outline-color: #38cac4;
   }
 }
 @layer components {
@@ -52,7 +52,7 @@
   }
 
   .modal-container {
-    @apply relative flex w-[343px] flex-col items-center rounded-md bg-white p-4;
+    @apply relative flex w-[343px] flex-col items-center rounded-md bg-white p-4 text-grey-05;
   }
 
   .btn-sm {
@@ -76,7 +76,7 @@
   }
 
   .study-menu {
-    @apply fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white drop-shadow-sm flex flex-col items-start pt-4 gap-y-4;
+    @apply fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white flex flex-col items-start pt-4 gap-y-4;
   }
 
   .button {

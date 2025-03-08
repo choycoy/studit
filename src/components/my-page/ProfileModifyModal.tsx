@@ -65,7 +65,7 @@ export default function ProfileModifyModal({
   return (
     <ModalOverlay>
       <section className="modal-container">
-        <h1 className="font-bold">프로필을 수정해요</h1>
+        <h1 className="font-bold text-main">프로필을 수정해요</h1>
         <div className="relative mt-3.5">
           <img src={profile.userImg} alt={profile.nickname + "프로필"} className="h-20 w-20 rounded-full" />
           <button
@@ -95,10 +95,8 @@ export default function ProfileModifyModal({
           onClick={() => handleModifyProfile(close)}
           disabled={!isChanged}
           className={`${
-            isChanged
-              ? "bg-main text-white cursor-pointer hover:bg-main-hover "
-              : "bg-grey-02 text-grey-04 cursor-not-allowed"
-          } h-12 rounded-full text-sm font-bold transition-colors w-full`}
+            isChanged ? "bg-main cursor-pointer hover:bg-main-hover " : "bg-grey-02 cursor-not-allowed"
+          } text-white h-12 rounded-full text-sm font-bold transition-colors w-full`}
         >
           수정하기
         </button>

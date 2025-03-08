@@ -76,7 +76,7 @@ export default function StudyDetail() {
   const isLeader = leaderId === userId;
 
   return (
-    <div className="text-main pt-2.5 relative h-full">
+    <div className="pt-2.5 relative h-full">
       <section className="pb-3 px-4">
         <div className="flex justify-between items-center">
           <h1 className="font-bold">{title}</h1>
@@ -128,7 +128,7 @@ export default function StudyDetail() {
         <section className="mb-3 px-4">
           <button
             onClick={openNoticeModal}
-            className="flex w-full cursor-pointer items-center gap-x-1 rounded-sm bg-main p-1.5 text-sm text-white"
+            className="flex w-full cursor-pointer items-center gap-x-1 rounded-sm p-1.5 text-sm bg-grey-01 text-grey-05"
           >
             <NoticeIcon alt="공지" className="h-5 w-5 flex-shrink-0" />
             <div className="flex w-full gap-x-1 truncate overflow-hidden">

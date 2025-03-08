@@ -1,7 +1,7 @@
 import ModalOverlay from "../ModalOverlay";
 import CloseIcon from "@/assets/icons/close.svg";
 import { handleMaxLengthChange } from "@/utils/commonUtils";
-import NoticeIcon from "@/assets/icons/notice-black.svg";
+import NoticeIcon from "@/assets/icons/notice.svg";
 import useGetStudyDetail from "@/hooks/study-detail/useGetStudyDetail";
 import { useState, useEffect } from "react";
 import useGetNotice from "@/hooks/study-detail/notice/useGetNotice";
@@ -40,7 +40,7 @@ export default function ManageNoticeModal({
       <section className="modal-container">
         <div className="flex items-center gap-x-1.5">
           <NoticeIcon alt="공지" />
-          <p className="font-bold">공지를 {hasNotice ? "수정 또는 삭제" : "등록"}해요</p>
+          <p className="font-bold text-main">공지를 {hasNotice ? "수정 또는 삭제" : "등록"}해요</p>
         </div>
         <textarea
           value={input}

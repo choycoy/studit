@@ -4,6 +4,6 @@
 <path d="M9.5 9V15M14.5 9V15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </mask>
 <g mask="url(#mask0_1027_543)">
-<path d="M0 0H24V24H0V0Z" fill="#111111"/>
+<path d="M0 0H24V24H0V0Z" fill="#38cac4"/>
 </g>
 </svg>
