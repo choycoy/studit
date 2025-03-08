@@ -66,7 +66,7 @@ export default function MyPage() {
             </div>
             <div className="flex items-center gap-x-1">
               <p>
-                보유한 포인트: <span className="font-bold">{points.toLocaleString()} P</span>
+                보유한 포인트: <span className="font-bold text-main">{points.toLocaleString()} P</span>
               </p>
             </div>
           </div>
@@ -77,18 +77,18 @@ export default function MyPage() {
       </section>
       <section className="my-3 text-sm">
         <p className="mb-2 font-medium">스터디 현황</p>
-        <div className="border-main flex w-full justify-around rounded-md border py-2">
+        <div className="border-grey-02 flex w-full justify-around rounded-md border py-2">
           <Link className="flex cursor-pointer flex-col items-center" to="/my-study?status=upcoming">
-            <span className="font-bold">시작 전</span>
-            <span>{applied}</span>
+            <span className="font-medium">시작 전</span>
+            <span className="text-main font-bold">{applied}</span>
           </Link>
           <Link className="flex cursor-pointer flex-col items-center" to="/my-study?status=ongoing">
-            <span className="font-bold">진행 중</span>
-            <span>{in_progress}</span>
+            <span className="font-medium">진행 중</span>
+            <span className="text-main font-bold">{in_progress}</span>
           </Link>
           <Link className="flex cursor-pointer flex-col items-center" to="/my-study?status=completed">
-            <span className="font-bold">완료</span>
-            <span>{completed}</span>
+            <span className="font-medium">완료</span>
+            <span className="text-main font-bold">{completed}</span>
           </Link>
         </div>
       </section>
@@ -96,7 +96,7 @@ export default function MyPage() {
         <p className="mb-3 font-medium">지난 일주일 동안 {nickname}님은 다른 사용자들보다</p>
         <div className="flex justify-between">
           <div className="flex flex-col items-center gap-y-1">
-            <div className="border-main relative flex h-[152px] w-[152px] grow flex-col items-center justify-center rounded-lg border">
+            <div className="border-grey-02 relative flex h-[152px] w-[152px] grow flex-col items-center justify-center rounded-lg border">
               {userTodoCompletion ? (
                 <div className="flex flex-col items-center">
                   <BarChart data={todoData} width={52} height={100}>
@@ -122,12 +122,12 @@ export default function MyPage() {
             </div>
             {userTodoCompletion && (
               <p>
-                나의 투두 달성률: <span className="text-main font-bold">{userTodoCompletion}%</span>
+                나의 투두 달성률: <span className="font-bold text-main">{userTodoCompletion}%</span>
               </p>
             )}
           </div>
           <div className="flex flex-col items-center gap-y-1">
-            <div className="border-main relative flex h-[152px] w-[152px] grow flex-col items-center justify-center rounded-lg border">
+            <div className="border-grey-02 relative flex h-[152px] w-[152px] grow flex-col items-center justify-center rounded-lg border">
               {userGoalRate ? (
                 <div className="flex flex-col items-center">
                   <BarChart data={studyTimeData} width={52} height={100}>
@@ -136,7 +136,7 @@ export default function MyPage() {
                     <Bar dataKey="value2" className="fill-main" radius={[2, 2, 0, 0]} />
                   </BarChart>
                   <p className="text-center">
-                    <span className="font-bold">{studyTimeDiff}% </span>
+                    <span className="text-main font-bold">{studyTimeDiff}% </span>
                     {studyTimeComparison < 0 ? "더 " : "적게 "} 목표 시간을
                     <br />
                     달성 했어요
@@ -154,7 +154,7 @@ export default function MyPage() {
             </div>
             {userGoalRate && (
               <p>
-                나의 목표 시간 달성률: <span className="font-bold">{userGoalRate}%</span>
+                나의 목표 시간 달성률: <span className="font-bold text-main">{userGoalRate}%</span>
               </p>
             )}
           </div>
