@@ -17,12 +17,12 @@ export default function NoticeModal({
 
   return (
     <ModalOverlay>
-      <section className="relative flex w-[343px] flex-col items-center rounded-md bg-main p-4 text-white">
+      <section className="modal-container">
         <div className="mb-3.5 flex items-center gap-x-1.5">
           <NoticeIcon alt="공지" />
-          <p className="font-bold">스터디장이 전해요</p>
+          <p className="font-bold text-main">스터디장이 전해요</p>
         </div>
-        <p className="border-white min-h-20 w-full rounded border p-2 text-sm">{notice.content}</p>
+        <p className="border-main min-h-20 w-full rounded border p-2 text-sm">{notice.content}</p>
         <span className="mt-2 self-end text-xs">{formatDate(notice.created)}</span>
         <button aria-label="공지 모달 닫기" className="close-position" onClick={() => close()}>
           <CloseIcon className="close-btn" alt="공지 모달 닫기" />
