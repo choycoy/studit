@@ -72,7 +72,7 @@ export default function EditStudy() {
             onChange={(e) =>
               handleMaxLengthChange(e, 14, () => setEditInfo((prev) => ({ ...prev, title: e.target.value })))
             }
-            className="text-input1"
+            className="text-input"
           />
           <span className="self-end text-xs">{editInfo.title?.length}/14</span>
         </div>
@@ -85,7 +85,7 @@ export default function EditStudy() {
             id="studyDescription"
             value={editInfo.description}
             onChange={(e) => setEditInfo((prev) => ({ ...prev, description: e.target.value }))}
-            className="text-input1 h-[200px]"
+            className="text-input h-[200px]"
           />
         </div>
         <div className="flex flex-col gap-y-1">

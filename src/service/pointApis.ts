@@ -50,5 +50,9 @@ const pointApis = {
       hasNextPage: response.hasNextPage,
     };
   },
+  withdrawPoint: async (userId: number, amount: number) => {
+    const { data } = await client.post(`/point/withdraw/${userId}`, { amount: amount });
+    return data;
+  },
 };
 export default pointApis;

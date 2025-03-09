@@ -45,7 +45,7 @@ export default function ChargeModal({
           </label>
           <input
             id="chargePoint"
-            className="text-input2 mb-1"
+            className="text-input mb-1"
             value={inputPoint.toLocaleString()}
             placeholder="충전할 포인트"
             onChange={(e) => {
