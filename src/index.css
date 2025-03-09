@@ -8,6 +8,10 @@
   --color-grey-03: #9e9e9e;
   --color-grey-04: #616161;
   --color-grey-05: #333333;
+  --color-charge: #03a6ff;
+  --color-withdraw: #00cc99;
+  --color-deduct: #ff6b6b;
+  --color-refund: #ff6b6b;
 }
 
 @font-face {
@@ -59,11 +63,7 @@
     @apply bg-main hover:bg-main-hover cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium text-white transition-colors;
   }
 
-  .text-input1 {
-    @apply border-grey-02 rounded border p-2;
-  }
-
-  .text-input2 {
+  .text-input {
     @apply border-grey-02 rounded border p-2;
   }
 

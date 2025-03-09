@@ -97,7 +97,7 @@ export default function MyPage() {
         <div className="flex justify-between">
           <div className="flex flex-col items-center gap-y-1">
             <div className="border-grey-02 relative flex h-[152px] w-[152px] grow flex-col items-center justify-center rounded-lg border">
-              {!userTodoCompletion ? (
+              {userTodoCompletion ? (
                 <div className="flex flex-col items-center">
                   <BarChart data={todoData} width={52} height={100}>
                     <YAxis domain={[0, 100]} hide />
@@ -111,7 +111,7 @@ export default function MyPage() {
                   </p>
                 </div>
               ) : (
-                <div className={`flex flex-col items-center gap-y-12 ${userGoalRate && "mt-8"}`}>
+                <div className={`flex flex-col items-center ${userTodoCompletion ? "gap-y-12" : "gap-y-10 mt-10"}`}>
                   <ThreeDotsLoader />
                   <p className="text-center">
                     데이터가 <br />
@@ -128,7 +128,7 @@ export default function MyPage() {
           </div>
           <div className="flex flex-col items-center gap-y-1">
             <div className="border-grey-02 relative flex h-[152px] w-[152px] grow flex-col items-center justify-center rounded-lg border">
-              {!userGoalRate ? (
+              {userGoalRate ? (
                 <div className="flex flex-col items-center">
                   <BarChart data={studyTimeData} width={52} height={100}>
                     <YAxis domain={[0, 100]} hide />
@@ -143,7 +143,7 @@ export default function MyPage() {
                   </p>
                 </div>
               ) : (
-                <div className={`flex flex-col items-center gap-y-12 ${userGoalRate && "mt-8"}`}>
+                <div className={`flex flex-col items-center ${userGoalRate ? "gap-y-12" : "gap-y-10 mt-10"}`}>
                   <ThreeDotsLoader />
                   <p className="text-center">
                     데이터가 <br />

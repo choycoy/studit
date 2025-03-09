@@ -4,12 +4,12 @@ import pointApis from "@/service/pointApis";
 export default function useGetUserPoints(userId: number) {
   const {
     data,
-    isLoading,
+    isLoading: isUserPointsLoading,
     refetch: refetchUserPoints,
   } = useQuery({
     queryKey: ["getUserPoints"],
     queryFn: () => pointApis.getUserPoints(userId),
   });
   const userPoints = data?.data;
-  return { userPoints, isLoading, refetchUserPoints };
+  return { userPoints, isUserPointsLoading, refetchUserPoints };
 }

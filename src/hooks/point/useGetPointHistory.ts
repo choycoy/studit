@@ -18,7 +18,13 @@ export default function useGetPointHistory(userId: number, selectedFilter: Point
     환불: pointApis.getRefundPoints,
   };
 
-  const { data, isLoading, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery<PaginatedDataResponse, Error>({
+  const {
+    data,
+    isLoading: isHistoryLoading,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery<PaginatedDataResponse, Error>({
     queryKey: [selectedFilter],
     queryFn: ({ pageParam = 1 }: QueryFunctionContext) =>
       apiFunction[selectedFilter](userId as number, pageParam as number),
@@ -36,5 +42,5 @@ export default function useGetPointHistory(userId: number, selectedFilter: Point
     return data.pages.flatMap((page) => page.data);
   }, [data]);
 
-  return { pointHistory, isLoading, refetch, fetchNextPage, hasNextPage };
+  return { pointHistory, isHistoryLoading, refetch, fetchNextPage, hasNextPage };
 }
