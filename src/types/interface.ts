@@ -46,6 +46,8 @@ export interface UpcomingStudyItem extends StudyItem {
 }
 export interface OnGoingStudyItem extends StudyItem {
   registerId: number;
+  deductedPoint: number;
+  obtainedPoint: number;
 }
 export interface CompletedStudyItem extends StudyItem {
   studyId: number;
