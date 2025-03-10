@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import EditStudy from "./pages/EditStudy";
 import MyPage from "./pages/MyPage";
 import Point from "./pages/Point";
+import MyStudyList from "./pages/MyStudyList";
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
         <Route path="/edit-study/:studyId" element={<EditStudy />} />
         <Route path="/my-page" element={<MyPage />} />
         <Route path="/point" element={<Point />} />
+        <Route path="/my-study" element={<MyStudyList />} />
       </Route>
     </Routes>
   );
