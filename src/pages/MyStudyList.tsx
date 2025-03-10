@@ -46,6 +46,10 @@ export default function MyStudyList() {
               const isCompletedStudy = (study: StudyItemType): study is CompletedStudyItem => {
                 return "studyId" in study;
               };
+              const isOngoingStudy = (study: StudyItemType): study is CompletedStudyItem => {
+                return "registerId" in study;
+              };
+
               const ref = isLastItem ? setTarget : null;
               const getStudyItemId = (studyItem: StudyItemType): number | undefined => {
                 if ("recruit_id" in studyItem) {
@@ -60,7 +64,7 @@ export default function MyStudyList() {
               const studyItemContent = (
                 <div
                   className={`border-main flex w-full flex-col gap-y-1 rounded-sm border px-2.5 py-2 text-sm ${
-                    isCompletedStudy(studyItem) ? "h-[110px]" : "h-[87px]"
+                    isCompletedStudy(studyItem) || isOngoingStudy(studyItem) ? "h-[110px]" : "h-[87px]"
                   }`}
                 >
                   <div className="flex justify-between text-xs font-medium">
@@ -76,7 +80,7 @@ export default function MyStudyList() {
                   </div>
                   <p className="text-left font-medium">{title}</p>
                   <p className="text-grey-04 text-left">스터디 기간: {gatherDate}</p>
-                  {isCompletedStudy(studyItem) ? (
+                  {isCompletedStudy(studyItem) || isOngoingStudy(studyItem) ? (
                     <div className="flex gap-x-2.5">
                       <span>
                         획득한 포인트:{" "}

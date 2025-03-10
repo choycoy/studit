@@ -1,6 +1,8 @@
 import { UpcomingStudyItem, OnGoingStudyItem, CompletedStudyItem, UserProfile, AvgStats } from "@/types/interface";
 import defaultProfile from "@/assets/imgs/default-profile.webp";
-export const upcomingStudies: { [userId: number]: UpcomingStudyItem[] } = { 1: [] };
+export const upcomingStudies: { [userId: number]: UpcomingStudyItem[] } = {
+  1: [],
+};
 export const ongoingStudies: { [userId: number]: OnGoingStudyItem[] } = {
   1: [
     {
@@ -11,6 +13,8 @@ export const ongoingStudies: { [userId: number]: OnGoingStudyItem[] } = {
       tag: "행정법",
       category: "공무원",
       weeklyStudyTime: 50,
+      deductedPoint: 300,
+      obtainedPoint: 600,
     },
     {
       registerId: 21,
@@ -20,6 +24,8 @@ export const ongoingStudies: { [userId: number]: OnGoingStudyItem[] } = {
       tag: "독서",
       category: "기타",
       weeklyStudyTime: 5,
+      deductedPoint: 250,
+      obtainedPoint: 500,
     },
     {
       registerId: 22,
@@ -29,6 +35,8 @@ export const ongoingStudies: { [userId: number]: OnGoingStudyItem[] } = {
       tag: "행정직",
       category: "공무원",
       weeklyStudyTime: 10,
+      deductedPoint: 200,
+      obtainedPoint: 400,
     },
     {
       registerId: 23,
@@ -38,6 +46,8 @@ export const ongoingStudies: { [userId: number]: OnGoingStudyItem[] } = {
       tag: "회화",
       category: "어학",
       weeklyStudyTime: 2,
+      deductedPoint: 250,
+      obtainedPoint: 500,
     },
   ],
 };
