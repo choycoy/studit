@@ -38,12 +38,12 @@ export default function MyStudyList() {
   return (
     <div
       className={`flex flex-col w-full ${
-        studyList.length > 0 ? "h-screen items-center" : "h-[calc(100vh-52px)] justify-center"
+        studyList.length > 0 ? "h-[calc(100vh-52px)] items-center" : "h-[calc(100vh-52px)] justify-center"
       }`}
     >
-      <section className={`flex w-full flex-col gap-y-2 px-4 ${studyList.length > 0 && "pt-3 pb-5"}`}>
+      <section className={`flex w-full flex-col gap-y-2 px-4 h-full ${studyList.length > 0 && "pt-3 pb-5"}`}>
         {studyList.length > 0 ? (
-          <div>
+          <div className="flex flex-col justify-between h-full">
             <div className="flex flex-col gap-y-2">
               {studyList.map((studyItem: StudyItemType, index: number) => {
                 const isLastItem = index === studyList.length - 1;
@@ -103,6 +103,7 @@ export default function MyStudyList() {
 
                 return (
                   <button
+                    key={index}
                     ref={ref}
                     onClick={() => {
                       if (studyType === "upcoming") navigate(`../recruit/${getStudyItemId(studyItem)}`);
@@ -118,7 +119,7 @@ export default function MyStudyList() {
             <button
               aria-label="스터디 목록으로 이동"
               onClick={() => navigate("/")}
-              className="mt-6 flex w-full cursor-pointer justify-between rounded bg-gradient-to-tr from-[#C2FBDB] to-[#EBC9E9] px-4 py-2 text-[#000000]"
+              className="mt-4 flex w-full cursor-pointer justify-between rounded bg-gradient-to-tr from-[#C2FBDB] to-[#EBC9E9] px-4 py-2 text-[#000000]"
             >
               <div className="flex flex-col justify-between py-2">
                 <p className="text-left text-2xl font-bold">입금해라 공부할 것이다</p>
