@@ -93,7 +93,7 @@ export default function MyStudyList() {
                 </div>
               );
               if (isCompletedStudy(studyItem)) {
-                return <>{studyItemContent}</>;
+                return <div key={index}>{studyItemContent}</div>;
               }
 
               return (
