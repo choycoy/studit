@@ -10,7 +10,7 @@ export default function useIntersect({
   hasNextPage: boolean;
   fetchNextPage: () => Promise<InfiniteQueryObserverResult>;
 }) {
-  const [target, setTarget] = useState<HTMLLIElement | null>(null);
+  const [target, setTarget] = useState<HTMLLIElement | HTMLButtonElement | null>(null);
 
   const observerCallback = useCallback<IntersectionObserverCallback>(
     (entries) => {

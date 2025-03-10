@@ -52,6 +52,8 @@ export interface CompletedStudyItem extends StudyItem {
   deductedPoint: number;
   obtainedPoint: number;
 }
+export type StudyStatusType = "ongoing" | "upcoming" | "completed";
+export type StudyItemType = UpcomingStudyItem | OnGoingStudyItem | CompletedStudyItem;
 export interface StudyItem {
   gatherDate: string;
   title: string;

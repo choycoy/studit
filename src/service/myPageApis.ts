@@ -23,5 +23,32 @@ const myPageApis = {
     const { data } = await client.get(`/user/study-stats/${userId}`);
     return data;
   },
+  getUpcomingList: async (userId: number, pageParam: number) => {
+    const { data: response } = await client.get(`user/study-list/upcoming/${userId}`, {
+      params: { page: pageParam },
+    });
+    return {
+      data: response.data,
+      hasNextPage: response.hasNextPage,
+    };
+  },
+  getOngoingList: async (userId: number, pageParam: number) => {
+    const { data: response } = await client.get(`user/study-list/ongoing/${userId}`, {
+      params: { page: pageParam },
+    });
+    return {
+      data: response.data,
+      hasNextPage: response.hasNextPage,
+    };
+  },
+  getCompletedList: async (userId: number, pageParam: number) => {
+    const { data: response } = await client.get(`user/study-list/completed/${userId}`, {
+      params: { page: pageParam },
+    });
+    return {
+      data: response.data,
+      hasNextPage: response.hasNextPage,
+    };
+  },
 };
 export default myPageApis;
