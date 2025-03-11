@@ -17,22 +17,16 @@ class Content {
     this.goalTime = goalTime;
   }
 
-  private static readonly TOKENIZER_REGEX = /[^a-zA-Z0-9가-힣 ]/g;
-
-  private tokenize(text: string): string[] {
-    return text.toLowerCase().replace(Content.TOKENIZER_REGEX, "").split(/\s+/);
-  }
-
   private getAllTokens(corpus: string[]): string[] {
     const tokenSet = new Set<string>();
     corpus.forEach((doc) => {
-      this.tokenize(doc).forEach((token) => tokenSet.add(token));
+      doc.split(/\s+/).forEach((token) => tokenSet.add(token));
     });
     return Array.from(tokenSet);
   }
 
   private getTFIDFVector(doc: string, corpus: string[], allTokens: string[]): number[] {
-    const tokens = this.tokenize(doc);
+    const tokens = doc.split(/\s+/);
     const termFrequency: { [key: string]: number } = {};
     const documentFrequencies: { [key: string]: number } = {};
 
@@ -41,7 +35,7 @@ class Content {
     });
 
     corpus.forEach((corpusDoc) => {
-      const uniqueTokens = new Set(this.tokenize(corpusDoc));
+      const uniqueTokens = new Set(corpusDoc.split(/\s+/));
       uniqueTokens.forEach((token) => {
         documentFrequencies[token] = (documentFrequencies[token] || 0) + 1;
       });
