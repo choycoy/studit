@@ -73,7 +73,7 @@ class Content {
     const categorySimilarity = this.calculateCategorySimilarity(otherContent);
     const tagSimilarity = this.calculateTagSimilarity(otherContent);
 
-    return 0.1 * textSimilarity + 0.1 * categorySimilarity + 0.8 * tagSimilarity;
+    return 0.1 * textSimilarity + 0.6 * categorySimilarity + 0.3 * tagSimilarity;
   }
 }
 

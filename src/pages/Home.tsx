@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const fetchContents = async () => {
       const contentsData = await aiApis.getStudyList();
-      const targetContentData: ContentData = { category: "대입", tags: ["베트남어"] };
+      const targetContentData: ContentData = { category: "시험", tags: ["변호사"] };
 
       const worker = new Worker(new URL("../ai/contentWorker.ts", import.meta.url), { type: "module" });
       const startTime = performance.now();
@@ -26,7 +26,7 @@ const Home = () => {
         const endTime = performance.now();
         setElapsedTime(endTime - startTime);
       };
-      console.log(sortedContents);
+
       return () => worker.terminate();
     };
     fetchContents();
