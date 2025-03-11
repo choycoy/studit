@@ -3,18 +3,15 @@ import cosineSimilarity from "cosine-similarity";
 interface ContentData {
   category: string;
   tags: string[];
-  goalTime: number;
 }
 
 class Content {
   category: string;
   tags: string[];
-  goalTime: number;
 
-  constructor(category: string, tags: string[], goalTime: number) {
+  constructor(category: string, tags: string[]) {
     this.category = category;
     this.tags = tags;
-    this.goalTime = goalTime;
   }
 
   private getAllTokens(corpus: string[]): string[] {
@@ -60,42 +57,34 @@ class Content {
     return cosineSimilarity(vector1, vector2);
   }
 
-  private normalizeGoalTime(goalTime: number, minGoalTime: number, maxGoalTime: number): number {
-    return minGoalTime === maxGoalTime ? 1 : (goalTime - minGoalTime) / (maxGoalTime - minGoalTime);
-  }
-
-  private calculateGoalTimeSimilarity(otherContent: Content, minGoalTime: number, maxGoalTime: number): number {
-    const normGoalTime1 = this.normalizeGoalTime(this.goalTime, minGoalTime, maxGoalTime);
-    const normGoalTime2 = this.normalizeGoalTime(otherContent.goalTime, minGoalTime, maxGoalTime);
-    return 1 - Math.abs(normGoalTime1 - normGoalTime2);
-  }
-
   private calculateCategorySimilarity(otherContent: Content): number {
     if (this.category === otherContent.category) return 1;
     if (this.category.includes(otherContent.category) || otherContent.category.includes(this.category)) return 0.7;
     return 0.3;
   }
 
-  public calculateOverallSimilarity(otherContent: Content, minGoalTime: number, maxGoalTime: number): number {
+  private calculateTagSimilarity(otherContent: Content): number {
+    const matchingTags = this.tags.filter((tag) => otherContent.tags.includes(tag));
+    return matchingTags.length / Math.max(this.tags.length, otherContent.tags.length);
+  }
+
+  public calculateOverallSimilarity(otherContent: Content): number {
     const textSimilarity = this.calculateTextualSimilarity(otherContent);
-    const goalTimeSimilarity = this.calculateGoalTimeSimilarity(otherContent, minGoalTime, maxGoalTime);
     const categorySimilarity = this.calculateCategorySimilarity(otherContent);
-    return 0.6 * textSimilarity + 0.1 * goalTimeSimilarity + 0.3 * categorySimilarity;
+    const tagSimilarity = this.calculateTagSimilarity(otherContent);
+
+    return 0.1 * textSimilarity + 0.1 * categorySimilarity + 0.8 * tagSimilarity;
   }
 }
 
 onmessage = function (event) {
   const { targetContentData, contentsData } = event.data;
-
-  const contents = contentsData.map((data: ContentData) => new Content(data.category, data.tags, data.goalTime));
-
-  const targetContent = new Content(targetContentData.category, targetContentData.tags, targetContentData.goalTime);
-  const minGoalTime = Math.min(...contents.map((c: ContentData) => c.goalTime));
-  const maxGoalTime = Math.max(...contents.map((c: ContentData) => c.goalTime));
+  const contents = contentsData.map((data: ContentData) => new Content(data.category, data.tags));
+  const targetContent = new Content(targetContentData.category, targetContentData.tags);
 
   const results = contents
     .map((content: Content) => {
-      const similarity = targetContent.calculateOverallSimilarity(content, minGoalTime, maxGoalTime);
+      const similarity = targetContent.calculateOverallSimilarity(content);
       return { content, similarity };
     })
     .sort(

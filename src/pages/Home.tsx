@@ -4,7 +4,6 @@ import aiApis from "@/service/aiApis";
 interface ContentData {
   category: string;
   tags: string[];
-  goalTime: number;
 }
 
 const Home = () => {
@@ -14,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     const fetchContents = async () => {
       const contentsData = await aiApis.getStudyList();
-      const targetContentData: ContentData = { category: "기타", tags: ["마음챙김", "사진", "요리"], goalTime: 35 };
+      const targetContentData: ContentData = { category: "대입", tags: ["베트남어"] };
 
       const worker = new Worker(new URL("../ai/contentWorker.ts", import.meta.url), { type: "module" });
       const startTime = performance.now();
@@ -27,7 +26,7 @@ const Home = () => {
         const endTime = performance.now();
         setElapsedTime(endTime - startTime);
       };
-
+      console.log(sortedContents);
       return () => worker.terminate();
     };
     fetchContents();
@@ -39,7 +38,7 @@ const Home = () => {
       {elapsedTime !== null && <p>⏱ 처리 시간: {elapsedTime.toFixed(2)} ms</p>}
       {sortedContents.map((content, index) => (
         <div key={index}>
-          {index + 1}. 카테고리: {content.category}, 태그: [{content.tags.join(", ")}], 목표 시간: {content.goalTime}
+          {index + 1}. 카테고리: {content.category}, 태그: [{content.tags.join(", ")}]
         </div>
       ))}
     </div>
