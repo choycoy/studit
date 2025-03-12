@@ -76,7 +76,7 @@
   }
 
   .study-menu {
-    @apply fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white flex flex-col items-start pt-4 gap-y-4;
+    @apply font-medium fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white flex flex-col items-start pt-4 gap-y-4;
   }
 
   .button {
