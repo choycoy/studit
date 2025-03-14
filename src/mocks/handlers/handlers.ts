@@ -3,5 +3,13 @@ import todoHandler from "./todoHandler";
 import timeHandler from "./timerHandler";
 import myPageHandler from "./myPageHandler";
 import pointHandler from "./pointHandler";
-const handlers = [...studyDetailHandler, ...todoHandler, ...timeHandler, ...myPageHandler, ...pointHandler];
+import homeHandlers from "./homeHandler";
+const handlers = [
+  ...studyDetailHandler,
+  ...todoHandler,
+  ...timeHandler,
+  ...myPageHandler,
+  ...pointHandler,
+  ...homeHandlers,
+];
 export default handlers;

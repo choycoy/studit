@@ -124,7 +124,7 @@ export default function MyStudyList() {
               <p className="text-left text-2xl font-bold">입금해라 공부할 것이다</p>
               <div className="flex items-center gap-x-1">
                 <span className="text-sm"> 스터디 목록 보러가기 </span>
-                <ChevronRight alt="스터디 목록 화살표" className="h-auto w-1.5" />
+                <ChevronRight alt="스터디 목록 화살표" className="h-auto w-1.5 text-[#000000]" />
               </div>
             </div>
             <img src={banner} alt="배너" className="h-auto w-[54px]" />

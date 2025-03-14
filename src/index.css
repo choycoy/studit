@@ -82,6 +82,9 @@
   .button {
     @apply bg-main hover:bg-main-hover h-12 cursor-pointer rounded-full text-sm font-bold text-white transition-colors w-full;
   }
+  .study-img {
+    @apply rounded-sm border-grey-01 border;
+  }
 }
 
 .bagel-fat-one-regular {

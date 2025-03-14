@@ -3,15 +3,23 @@ import cosineSimilarity from "cosine-similarity";
 interface ContentData {
   category: string;
   tags: string[];
+  img: string;
+  goalTime: number;
+  dayBeforeStart: number;
 }
 
 class Content {
   category: string;
   tags: string[];
-
-  constructor(category: string, tags: string[]) {
+  img: string;
+  goalTime: number;
+  dayBeforeStart: number;
+  constructor(category: string, tags: string[], img: string, goalTime: number, dayBeforeStart: number) {
     this.category = category;
     this.tags = tags;
+    this.img = img;
+    this.goalTime = goalTime;
+    this.dayBeforeStart = dayBeforeStart;
   }
 
   private getAllTokens(corpus: string[]): string[] {
@@ -79,8 +87,16 @@ class Content {
 
 onmessage = function (event) {
   const { targetContentData, contentsData } = event.data;
-  const contents = contentsData.map((data: ContentData) => new Content(data.category, data.tags));
-  const targetContent = new Content(targetContentData.category, targetContentData.tags);
+  const contents = contentsData.map(
+    (data: ContentData) => new Content(data.category, data.tags, data.img, data.goalTime, data.dayBeforeStart),
+  );
+  const targetContent = new Content(
+    targetContentData.category,
+    targetContentData.tags,
+    targetContentData.img,
+    targetContentData.goalTime,
+    targetContentData.dayBeforeStart,
+  );
 
   const results = contents
     .map((content: Content) => {
