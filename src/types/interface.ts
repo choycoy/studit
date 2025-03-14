@@ -13,6 +13,8 @@ export interface StudyOngoingType {
   currentMembers: number;
   status: string;
   hasNotice: boolean;
+  img: string;
+  dayBeforeStart: number;
 }
 export interface NoticeType {
   noticeId: number;
