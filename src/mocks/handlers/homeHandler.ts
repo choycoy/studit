@@ -1,10 +1,9 @@
 import { http, HttpResponse } from "msw";
-import { dummyStudyList } from "../data/studyMockData";
-import { StudyOngoingType } from "@/types/interface";
+import { ongoingStudies, recruitingStudies } from "../data/studyMockData";
+import { StudyItem } from "@/types/interface";
 
-export const getPopularStudies = (studies: StudyOngoingType[]) => {
-  return [...studies]
-    .filter((study) => study.status === "ACTIVE")
+export const getPopularStudies = (studies1: StudyItem[], studies2: StudyItem[]) => {
+  return [...studies1, ...studies2]
     .sort((a, b) => {
       const scoreA = a.currentMembers * 3 + a.goalTime * 0.5 + (a.hasNotice ? 5 : 0);
       const scoreB = b.currentMembers * 3 + b.goalTime * 0.5 + (b.hasNotice ? 5 : 0);
@@ -15,7 +14,7 @@ export const getPopularStudies = (studies: StudyOngoingType[]) => {
 
 const homeHandlers = [
   http.get("/study-list/popular", () => {
-    if (!dummyStudyList) {
+    if (!ongoingStudies || !recruitingStudies) {
       return new HttpResponse(
         JSON.stringify({
           success: false,
@@ -29,7 +28,7 @@ const homeHandlers = [
       JSON.stringify({
         success: true,
         message: "Study List retrieved successfully.",
-        data: getPopularStudies(dummyStudyList),
+        data: getPopularStudies(ongoingStudies, recruitingStudies),
       }),
       { status: 200 },
     );

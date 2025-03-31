@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { dummyStudyList, dummyNotices } from "../data/studyMockData";
+import { ongoingStudies, dummyNotices } from "../data/studyMockData";
 import { NoticeRequest, UpdateStudyRequest } from "@/types/request";
 
 const studyDetailHandler = [
@@ -15,7 +15,7 @@ const studyDetailHandler = [
       );
     }
 
-    const target = dummyStudyList.find((study) => study.roomId === studyId);
+    const target = ongoingStudies.find((study) => study.roomId === studyId);
     if (!target) {
       return new HttpResponse(
         JSON.stringify({
@@ -58,7 +58,7 @@ const studyDetailHandler = [
       );
     }
 
-    const target = dummyStudyList.find((dummyStudy) => dummyStudy.roomId === studyId);
+    const target = ongoingStudies.find((dummyStudy) => dummyStudy.roomId === studyId);
     if (!target) {
       return new HttpResponse(
         JSON.stringify({
@@ -201,7 +201,7 @@ const studyDetailHandler = [
       return new HttpResponse(JSON.stringify({ success: false, message: "content is required." }), { status: 400 });
     }
 
-    const target = dummyStudyList.find((dummyStudy) => dummyStudy.roomId === studyId);
+    const target = ongoingStudies.find((dummyStudy) => dummyStudy.roomId === studyId);
     if (!target) {
       return new HttpResponse(
         JSON.stringify({
@@ -240,7 +240,7 @@ const studyDetailHandler = [
       );
     }
 
-    const target = dummyStudyList.find((dummyStudy) => dummyStudy.roomId === studyId);
+    const target = ongoingStudies.find((dummyStudy) => dummyStudy.roomId === studyId);
     if (!target) {
       return new HttpResponse(
         JSON.stringify({

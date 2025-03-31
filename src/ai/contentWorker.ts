@@ -6,6 +6,8 @@ interface ContentData {
   img: string;
   goalTime: number;
   dayBeforeStart: number;
+  title: string;
+  roomId: number;
 }
 
 class Content {
@@ -14,12 +16,25 @@ class Content {
   img: string;
   goalTime: number;
   dayBeforeStart: number;
-  constructor(category: string, tags: string[], img: string, goalTime: number, dayBeforeStart: number) {
+  title: string;
+  roomId: number;
+
+  constructor(
+    category: string,
+    tags: string[],
+    img: string,
+    goalTime: number,
+    dayBeforeStart: number,
+    title: string,
+    roomId: number,
+  ) {
     this.category = category;
     this.tags = tags;
     this.img = img;
     this.goalTime = goalTime;
     this.dayBeforeStart = dayBeforeStart;
+    this.title = title;
+    this.roomId = roomId;
   }
 
   private getAllTokens(corpus: string[]): string[] {
@@ -88,7 +103,8 @@ class Content {
 onmessage = function (event) {
   const { targetContentData, contentsData } = event.data;
   const contents = contentsData.map(
-    (data: ContentData) => new Content(data.category, data.tags, data.img, data.goalTime, data.dayBeforeStart),
+    (data: ContentData) =>
+      new Content(data.category, data.tags, data.img, data.goalTime, data.dayBeforeStart, data.title, data.roomId),
   );
   const targetContent = new Content(
     targetContentData.category,
@@ -96,6 +112,8 @@ onmessage = function (event) {
     targetContentData.img,
     targetContentData.goalTime,
     targetContentData.dayBeforeStart,
+    targetContentData.title,
+    targetContentData.roomId,
   );
 
   const results = contents

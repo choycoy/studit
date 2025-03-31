@@ -4,19 +4,11 @@ import { useNavigate } from "react-router-dom";
 import ChevronRightIcon from "@/assets/icons/chevron-right.svg";
 import Slider from "react-slick";
 import useGetPopular from "@/hooks/home/useGetPopular";
-import { StudyOngoingType } from "@/types/interface";
-
-interface ContentData {
-  category: string;
-  tags: string[];
-  img: string;
-  roomId: number;
-  title: string;
-  dayBeforeStart: number;
-}
+import { Link } from "react-router-dom";
+import { StudyItem } from "@/types/interface";
 
 export default function Home() {
-  const [sortedContents, setSortedContents] = useState<ContentData[]>([]);
+  const [sortedContents, setSortedContents] = useState<StudyItem[]>([]);
   const navigate = useNavigate();
   const { popularStudies, isPopularLoading } = useGetPopular();
 
@@ -40,17 +32,6 @@ export default function Home() {
 
   if (!popularStudies || isPopularLoading) return null;
 
-  const setting4Banner = {
-    infinite: true,
-    autoplay: true,
-    speed: 1000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplaySpeed: 6000,
-    draggable: true,
-    swipe: true,
-    touchMove: true,
-  };
   const banners = [
     {
       text: "같이 시작하자,\n더 이상 미룰 순 없다.",
@@ -63,14 +44,28 @@ export default function Home() {
       link: "/point",
     },
   ];
-  const setting4List = {
-    slidesToShow: 2.8,
-    slidesToScroll: 3,
+
+  const setting4Banner = {
+    infinite: true,
+    autoplay: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplaySpeed: 6000,
+    draggable: true,
+    swipe: true,
+    touchMove: true,
+  };
+
+  const setting4Popular = {
+    slidesToShow: 2.5,
+    slidesToScroll: 2,
     infinite: true,
     swipe: true,
     arrows: false,
+    variableWidth: true,
   };
-  console.log(sortedContents);
+
   return (
     <div className="px-4">
       <Slider {...setting4Banner}>
@@ -80,7 +75,7 @@ export default function Home() {
               key={index}
               aria-label={banner.buttonText}
               onClick={() => navigate(banner.link)}
-              className={`mt-2 flex w-full h-[130px] cursor-pointer justify-between rounded text-white ${
+              className={`mt-0.5 flex w-full h-[130px] cursor-pointer justify-between rounded text-white ${
                 index === 1 ? "bg-[#6997E0]" : "bg-main"
               } px-4`}
             >
@@ -101,36 +96,50 @@ export default function Home() {
         })}
       </Slider>
       <section className="mt-3">
-        <h1 className="font-medium mb-1.5 text-sm">지금 인기 있는 스터디에요</h1>
-        <Slider {...setting4List}>
-          {popularStudies.map((study: StudyOngoingType) => {
-            const { img, title, roomId, goalTime, dayBeforeStart, category } = study;
+        <h1 className="font-medium mb-1.5">지금 인기 있는 스터디에요</h1>
+        <Slider {...setting4Popular}>
+          {popularStudies.map((study: StudyItem) => {
+            const { img, title, roomId, goalTime, dayBeforeStart, status } = study;
+
             return (
-              <div key={roomId} className="!w-[109px] text-xs relative">
-                <span className="bg-main text-white rounded-full py-0.5 px-1 absolute top-1 left-1 font-medium">
-                  {category}
-                </span>
-                <img src={img} alt={title} className="w-[109px] h-[109px] study-img" />
-                <p className="mt-1 font-medium">{title}</p>
-                <p>주 {goalTime}시간</p>
+              <Link to="" key={roomId} className="!w-32 relative !mr-2.5 text-xs">
+                <img src={img} alt={title} className="w-32 h-32 study-img" />
+                <p className="mt-1 text-sm font-medium">{title}</p>
+
                 <p className="text-grey-03">{dayBeforeStart === 1 ? "내일" : `${dayBeforeStart}일 뒤`} 시작</p>
-              </div>
+                <div className="flex items-center gap-x-1 text-xs">
+                  <span className="bg-[#F1A6A6] text-white rounded-full py-0.5 px-1">주 {goalTime}시간</span>
+                  <span className="text-main font-medium">{status === "RECRUITING" ? "모집중" : "진행중"}</span>
+                </div>
+              </Link>
             );
           })}
         </Slider>
       </section>
-      <section className="my-3">
-        <h2 className="font-medium mb-1.5 text-sm">이 스터디 어때요?</h2>
-        {sortedContents.map((content) => {
-          const { category, roomId, tags, img, title } = content;
+      <section className="my-3 h-96">
+        <h2 className="font-medium mb-1.5">지식 헌터님을 위한 스터디에요!</h2>
+        <div className="flex flex-col gap-y-1">
+          {sortedContents.slice(0, 3).map((content) => {
+            const { roomId, goalTime, img, title, dayBeforeStart, status, category } = content;
 
-          return (
-            <div key={roomId}>
-              {/* {index + 1}. 카테고리: {category}, 태그: [{tags.join(", ")}] */}
-              <img src={img} className="w-20 h-20 study-img" alt={title} />
-            </div>
-          );
-        })}
+            return (
+              <div key={roomId} className="flex gap-x-2">
+                <img src={img} className="w-20 h-20 study-img" alt={title} />
+                <div className="flex flex-col items-start text-sm">
+                  <div className="flex items-center gap-x-0.5 font-medium">
+                    <span className="bg-[#F72C5B] text-white rounded-full py-0.5 px-1 text-xs">주 {goalTime}시간</span>
+                    <span className="bg-[#F72C5B] text-white rounded-full py-0.5 px-1 text-xs">{category}</span>
+                  </div>
+                  <div className="flex gap-x-1">
+                    <p className="font-medium">{title}</p>
+                    <p className="text-main font-medium">{status === "RECRUITING" ? "모집중" : "진행중"}</p>
+                  </div>
+                  <p className="text-grey-03">{dayBeforeStart === 1 ? "내일" : `${dayBeforeStart}일 뒤`} 시작</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
     </div>
   );
