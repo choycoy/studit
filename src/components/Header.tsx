@@ -14,7 +14,7 @@ export default function Header() {
       <Link to={"/"}>
         <span className="bagel-fat-one-regular text-2xl">STUDIT</span>
       </Link>
-      <button aria-label="메뉴" onClick={onClick} className="cursor-pointer">
+      <button aria-label="메뉴" onClick={onClick} className="cursor-pointer hover:text-main-hover transition-colors">
         <MenuIcon alt="메뉴" />
       </button>
     </header>
