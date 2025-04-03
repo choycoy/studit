@@ -85,6 +85,9 @@
   .study-img {
     @apply rounded-sm border-grey-01 border;
   }
+  .tooltip {
+    @apply after:absolute after:bottom-full after:border-x-[6px] after:border-b-[9px] after:border-transparent after:border-b-main after:content-[''];
+  }
 }
 
 .bagel-fat-one-regular {
