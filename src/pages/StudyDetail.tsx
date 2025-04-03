@@ -15,7 +15,7 @@ import useTodoTimer from "@/hooks/study-detail/todo-timer/useTodoTimer";
 import useTodoActions from "@/hooks/study-detail/todo-timer/useTodoActions";
 import PlayIcon from "@/assets/icons/play.svg";
 import PauseIcon from "@/assets/icons/pause.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LeaveStudyModal from "@/components/study-detail/LeaveModal";
 import ManageNoticeModal from "@/components/study-detail/ManageNoticeModal";
 
@@ -49,7 +49,42 @@ export default function StudyDetail() {
   } = useTodoActions(studyId);
   const { startTimer, stopTimer, activeTodoId } = useTodoTimer({ studyId, userId, setTimers, setLocalTodoList });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const { todos } = todoList;
+    if (!SpeechRecognition || !todos) return;
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.lang = "ko-KR";
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const transcript = event.results[event.results.length - 1][0].transcript;
+      if (transcript.includes("켜") || transcript.includes("재생") || transcript.includes("시작")) {
+        for (const todo of todos) {
+          if (transcript.includes(todo.todoName)) {
+            startTimer(todo.todoId);
+            return;
+          }
+        }
+      } else if (transcript.includes("꺼") || transcript.includes("중지") || transcript.includes("종료")) {
+        console.log(activeTodoId);
+        if (activeTodoId) stopTimer(activeTodoId);
+      }
+    };
+    recognition.start();
+
+    return () => {
+      recognition.stop();
+    };
+  }, [activeTodoId, todoList.todos]);
+  useEffect(() => {
+    setShowTooltip(true);
+    setTimeout(() => setShowTooltip(false), 3000);
+  }, []);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   if (!studyDetail || isDetailLoading || isNoticeLoading || !todoList || todoListLoading || isTimerLoading) return null;
@@ -128,13 +163,10 @@ export default function StudyDetail() {
         <section className="mb-3 px-4">
           <button
             onClick={openNoticeModal}
-            className="flex w-full cursor-pointer items-center gap-x-1 rounded-sm p-1.5 text-sm bg-grey-01 text-grey-05"
+            className="flex w-full cursor-pointer items-center gap-x-1 rounded-sm p-1.5 text-sm bg-[#EDF7FF] text-grey-05"
           >
             <NoticeIcon alt="공지" className="h-5 w-5 flex-shrink-0" />
-            <div className="flex w-full gap-x-1 truncate overflow-hidden">
-              <span className="flex-shrink-0 font-medium">공지:</span>
-              <span className="truncate">{notice.content}</span>
-            </div>
+            <span className="truncate overflow-hidden">{notice.content}</span>
           </button>
         </section>
       )}
@@ -190,7 +222,7 @@ export default function StudyDetail() {
               </button>
             </li>
           )}
-          {todos.map((todo: TodoType) => {
+          {todos.map((todo: TodoType, index: number) => {
             const { todoId, todoName, studyTime } = todo;
 
             return (
@@ -244,12 +276,17 @@ export default function StudyDetail() {
                       if (activeTodoId === todoId) stopTimer(todoId);
                       else startTimer(todoId);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer relative"
                   >
                     {activeTodoId === todoId ? (
                       <PauseIcon alt={`${todoName} 타이머 정지`} className="h-10 w-10" />
                     ) : (
                       <PlayIcon alt={`${todoName} 타이머 재생`} className="h-10 w-10" />
+                    )}
+                    {index === 0 && showTooltip && (
+                      <p className="absolute whitespace-nowrap right-0 shadow-md shadow-zinc-400 bg-main rounded px-2.5 py-2 text-xs font-medium text-white z-50 -bottom-[42px] after:right-3.5 tooltip">
+                        마이크로 타이머를 쉽게 시작하고 멈출 수 있어요
+                      </p>
                     )}
                   </button>
                 </div>

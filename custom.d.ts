@@ -11,7 +11,20 @@ declare module "*.svg" {
   >;
   export default ReactComponent;
 }
+
 declare module "cosine-similarity" {
   function cosineSimilarity(vec1: number[], vec2: number[]): number;
   export = cosineSimilarity;
+}
+
+interface SpeechRecognitionConstructor {
+  new (): SpeechRecognition;
+}
+
+interface Window {
+  SpeechRecognition: SpeechRecognitionConstructor;
+  webkitSpeechRecognition: SpeechRecognitionConstructor;
+}
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
 }

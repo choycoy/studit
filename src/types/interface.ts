@@ -1,4 +1,4 @@
-export interface StudyOngoingType {
+export interface StudyItem {
   roomId: number;
   leaderId: number;
   leaderNickName: string;
@@ -43,22 +43,22 @@ export interface StudyDetail {
   description: string;
   tags: string[];
 }
-export interface UpcomingStudyItem extends StudyItem {
+export interface UpcomingStudyItem extends StudyInfo {
   recruit_id: number;
 }
-export interface OnGoingStudyItem extends StudyItem {
+export interface OnGoingStudyItem extends StudyInfo {
   registerId: number;
   deductedPoint: number;
   obtainedPoint: number;
 }
-export interface CompletedStudyItem extends StudyItem {
+export interface CompletedStudyItem extends StudyInfo {
   studyId: number;
   deductedPoint: number;
   obtainedPoint: number;
 }
 export type StudyStatusType = "ongoing" | "upcoming" | "completed";
 export type StudyItemType = UpcomingStudyItem | OnGoingStudyItem | CompletedStudyItem;
-export interface StudyItem {
+export interface StudyInfo {
   gatherDate: string;
   title: string;
   enterPoint: number;
