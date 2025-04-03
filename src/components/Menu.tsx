@@ -17,8 +17,9 @@ export default function Menu({ isOpen, close }: { isOpen: boolean; close: () => 
         <span className="bagel-fat-one-regular">STUDIT</span>
       </h1>
       <ul className="ml-10 flex flex-col gap-y-5 text-lg">
-        <li className="hover:text-grey-01 transition-colors">
+        <li>
           <button
+            className="cursor-pointer hover:text-grey-01 transition-colors"
             onClick={() => {
               close();
               navigate("/");
@@ -27,8 +28,9 @@ export default function Menu({ isOpen, close }: { isOpen: boolean; close: () => 
             홈
           </button>
         </li>
-        <li className="hover:text-grey-01 transition-colors">
+        <li>
           <button
+            className="cursor-pointer hover:text-grey-01 transition-colors"
             onClick={() => {
               close();
               navigate("/study-lounge");
@@ -37,8 +39,9 @@ export default function Menu({ isOpen, close }: { isOpen: boolean; close: () => 
             스터디 라운지
           </button>
         </li>
-        <li className="hover:text-grey-01 transition-colors">
+        <li>
           <button
+            className="cursor-pointer hover:text-grey-01 transition-colors"
             onClick={() => {
               close();
               navigate("/my-page");
