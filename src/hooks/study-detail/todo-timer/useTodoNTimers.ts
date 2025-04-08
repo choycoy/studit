@@ -2,7 +2,7 @@ import useGetTodoList from "./useGetTodoList";
 import useTodoState from "./useTodoState";
 import useToggleTodo from "./useToggleTodo";
 import { useState, useEffect } from "react";
-import { TodoListType, TimerType } from "@/types/interface";
+import { TodoListType, TimerType, TodoType } from "@/types/interface";
 import useGetTimers from "./useGetTimers";
 import useSyncWithServer from "./useSyncWithServer";
 
@@ -16,8 +16,18 @@ export default function useTodoNTimers(studyId: number, userId: number) {
   const [timers, setTimers] = useState<TimerType[]>([]);
 
   useEffect(() => {
-    if (todoList) setLocalTodoList(todoList);
-  }, [todoList]);
+    if (!todoListLoading && todoList) {
+      setLocalTodoList((prev) => {
+        return {
+          studyTotalTime: todoList.studyTotalTime,
+          todos: todoList.todos.map((serverTodo: TodoType) => {
+            const localTodo = prev.todos.find((t) => t.todoId === serverTodo.todoId);
+            return localTodo?.isRunning ? localTodo : serverTodo;
+          }),
+        };
+      });
+    }
+  }, [todoList, todoListLoading]);
 
   useEffect(() => {
     if (initialTimers) {
@@ -50,7 +60,7 @@ export default function useTodoNTimers(studyId: number, userId: number) {
     toggleTodo(todoId);
   };
   return {
-    todoList: localTodoList,
+    localTodoList,
     todoListLoading,
     timers,
     setTimers,
@@ -58,5 +68,6 @@ export default function useTodoNTimers(studyId: number, userId: number) {
     todoStates,
     handleCheckboxChange,
     setLocalTodoList,
+    todoList,
   };
 }

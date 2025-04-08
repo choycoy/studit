@@ -11,5 +11,6 @@ export default function useGetTodoList(studyId: number) {
     queryFn: () => studyDetailApis.getTodoList(studyId),
   });
   const todoList = data?.data;
+
   return { todoList, todoListLoading, refetchTodoList };
 }

@@ -81,7 +81,7 @@ const todoHandler = [
       isRunning: false,
     };
 
-    todoList.todos.push(newTodo);
+    todoList.todos.unshift(newTodo);
 
     return new HttpResponse(JSON.stringify({ success: true, message: "Todo has been added." }), { status: 200 });
   }),
@@ -182,7 +182,7 @@ const todoHandler = [
     if (!todoId) {
       return new HttpResponse(JSON.stringify({ success: false, message: "todoId is required." }), { status: 400 });
     }
-    if (!isCompleted) {
+    if (isCompleted === null) {
       return new HttpResponse(JSON.stringify({ success: false, message: "isCompleted is required." }), { status: 400 });
     }
 
