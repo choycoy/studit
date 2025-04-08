@@ -76,7 +76,7 @@
   }
 
   .study-menu {
-    @apply font-medium fixed top-0 left-0 z-40 mt-[52px] box-border w-full h-full transform bg-main text-white flex flex-col items-start pt-4 gap-y-4;
+    @apply font-medium fixed top-0 left-0 z-50 mt-[52px] box-border w-full h-full transform bg-main text-white flex flex-col items-start pt-4 gap-y-4;
   }
 
   .button {
@@ -87,6 +87,12 @@
   }
   .tooltip {
     @apply after:absolute after:bottom-full after:border-x-[6px] after:border-b-[9px] after:border-transparent after:border-b-main after:content-[''];
+  }
+  .check-box {
+    @apply checked:bg-main border-grey-01 relative h-[18px] w-[18px] appearance-none rounded-sm border-2;
+  }
+  .check-box-after {
+    @apply checked:border-transparent checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 checked:after:text-white checked:after:content-['✓'] cursor-pointer;
   }
 }
 

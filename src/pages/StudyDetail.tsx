@@ -1,114 +1,26 @@
-import useGetStudyDetail from "@/hooks/study-detail/useGetStudyDetail";
-import { useParams, useNavigate } from "react-router-dom";
-import { overlay } from "overlay-kit";
-import NoticeIcon from "@/assets/icons/notice.svg";
-import NoticeModal from "@/components/study-detail/NoticeModal";
+import NoticeSection from "@/components/study-detail/NoticeSection";
+import StudyMenuList from "@/components/study-detail/StudyMenu";
+import GroupTimers from "@/components/study-detail/GroupTimers";
+import TodoListSection from "@/components/study-detail/TodoListSection";
+import useStudyDetail from "@/hooks/study-detail/useStudyDetail";
 import useGetNotice from "@/hooks/study-detail/notice/useGetNotice";
-import LightOffIcon from "@/assets/icons/light-off.svg";
-import LightOnIcon from "@/assets/icons/light-on.svg";
-import useTodoNTimers from "@/hooks/study-detail/todo-timer/useTodoNTimers";
-import { TimerType, TodoType } from "@/types/interface";
-import LeaderIcon from "@/assets/icons/leader.svg";
-import { formatTime } from "@/utils/commonUtils";
-import CloseIcon from "@/assets/icons/close.svg";
 import useTodoTimer from "@/hooks/study-detail/todo-timer/useTodoTimer";
-import useTodoActions from "@/hooks/study-detail/todo-timer/useTodoActions";
-import PlayIcon from "@/assets/icons/play.svg";
-import PauseIcon from "@/assets/icons/pause.svg";
-import { useState, useEffect } from "react";
-import LeaveStudyModal from "@/components/study-detail/LeaveModal";
-import ManageNoticeModal from "@/components/study-detail/ManageNoticeModal";
+import useSpeechRecognition from "@/hooks/study-detail/useSpeechRecognition";
+import useTodoNTimers from "@/hooks/study-detail/todo-timer/useTodoNTimers";
 
 export default function StudyDetail() {
-  const studyId = Number(useParams().studyId);
-  const userId = 1;
-  const { studyDetail, isDetailLoading } = useGetStudyDetail(studyId);
+  const { isDetailLoading, isMenuOpen, showTooltip, toggleMenu, studyDetail, setIsMenuOpen, studyId, userId } =
+    useStudyDetail();
+  const { localTodoList, timers, setTimers, todoListLoading, isTimerLoading, setLocalTodoList, todoList } =
+    useTodoNTimers(studyId, userId);
+  const { studyTotalTime, todos } = localTodoList;
   const { notice, isNoticeLoading } = useGetNotice(studyId, studyDetail?.hasNotice);
-  const {
-    todoList,
-    timers,
-    setTimers,
-    todoListLoading,
-    isTimerLoading,
-    todoStates,
-    handleCheckboxChange,
-    setLocalTodoList,
-  } = useTodoNTimers(studyId, userId);
-  const {
-    isAdding,
-    setIsAdding,
-    newTodo,
-    setNewTodo,
-    handleKeyDown,
-    startEditing,
-    isEditing,
-    setIsEditing,
-    saveEdit,
-    editingTodo,
-    setEditingTodo,
-  } = useTodoActions(studyId);
   const { startTimer, stopTimer, activeTodoId } = useTodoTimer({ studyId, userId, setTimers, setLocalTodoList });
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const navigate = useNavigate();
+  useSpeechRecognition({ startTimer, stopTimer, activeTodoId, todoListLoading, todoList });
 
-  useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const { todos } = todoList;
-    if (!SpeechRecognition || !todos) return;
-
-    const recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.lang = "ko-KR";
-
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const transcript = event.results[event.results.length - 1][0].transcript;
-      if (transcript.includes("켜") || transcript.includes("재생") || transcript.includes("시작")) {
-        for (const todo of todos) {
-          if (transcript.includes(todo.todoName)) {
-            startTimer(todo.todoId);
-            return;
-          }
-        }
-      } else if (transcript.includes("꺼") || transcript.includes("중지") || transcript.includes("종료")) {
-        console.log(activeTodoId);
-        if (activeTodoId) stopTimer(activeTodoId);
-      }
-    };
-    recognition.start();
-
-    return () => {
-      recognition.stop();
-    };
-  }, [activeTodoId, todoList.todos]);
-  useEffect(() => {
-    setShowTooltip(true);
-    setTimeout(() => setShowTooltip(false), 3000);
-  }, []);
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-
-  if (!studyDetail || isDetailLoading || isNoticeLoading || !todoList || todoListLoading || isTimerLoading) return null;
-
+  if (!studyDetail || isDetailLoading || isNoticeLoading || !localTodoList || todoListLoading || isTimerLoading)
+    return null;
   const { title, leaderId, hasNotice } = studyDetail;
-  const { studyTotalTime, todos } = todoList;
-  const openNoticeModal = () => {
-    overlay.open(({ isOpen, close }) => {
-      return <NoticeModal isOpen={isOpen} close={close} notice={notice} />;
-    });
-  };
-  const openLeaveModal = () => {
-    toggleMenu();
-    overlay.open(({ isOpen, close }) => {
-      return <LeaveStudyModal isOpen={isOpen} close={close} />;
-    });
-  };
-  const openManageModal = () => {
-    toggleMenu();
-    overlay.open(({ isOpen, close }) => {
-      return <ManageNoticeModal isOpen={isOpen} close={close} studyId={studyId} hasNotice={hasNotice} />;
-    });
-  };
-  const isLeader = leaderId === userId;
 
   return (
     <div className="pt-2.5 relative h-full">
@@ -123,178 +35,28 @@ export default function StudyDetail() {
           </button>
         </div>
       </section>
-      <section
-        className={`${
-          isMenuOpen ? "slide-down transition-transform duration-300 ease-in-out" : "invisible"
-        } study-menu`}
-      >
-        <button
-          onClick={() => setIsMenuOpen(false)}
-          aria-label="스터디 메뉴 닫기"
-          className="self-end close-btn cursor-pointer pr-9"
-        >
-          <CloseIcon alt="스터디 메뉴 닫기" />
-        </button>
-        <button
-          className={`flex w-full cursor-pointer items-center px-4 py-2 hover:text-grey-01 transition-colors ${
-            !isLeader && "text-grey-01"
-          }`}
-          onClick={openManageModal}
-          disabled={!isLeader}
-        >
-          공지 {hasNotice ? "수정 및 삭제" : "등록"}하기
-          <span className="rounded-full bg-white px-1.5 py-1 text-xs text-main ml-2 font-bold">스터디장</span>
-        </button>
-        <button
-          disabled={!isLeader}
-          className={`flex w-full cursor-pointer items-center px-4 py-2 hover:text-grey-01 transition-colors ${
-            !isLeader && "text-grey-01"
-          }`}
-          onClick={() => navigate(`/edit-study/${studyId}`)}
-        >
-          스터디 정보 수정
-          <span className="rounded-full bg-white px-1.5 py-1 text-xs text-main font-bold ml-2">스터디장</span>
-        </button>
-        <button className="cursor-pointer py-2 pl-4 hover:text-grey-01 transition-colors" onClick={openLeaveModal}>
-          스터디 나가기
-        </button>
-      </section>
-      {hasNotice && (
-        <section className="mb-3 px-4">
-          <button
-            onClick={openNoticeModal}
-            className="flex w-full cursor-pointer items-center gap-x-1 rounded-sm p-1.5 text-sm bg-[#EDF7FF] text-grey-05"
-          >
-            <NoticeIcon alt="공지" className="h-5 w-5 flex-shrink-0" />
-            <span className="truncate overflow-hidden">{notice.content}</span>
-          </button>
-        </section>
-      )}
-      <section className="grid h-[254px] grid-cols-4 gap-x-4 px-4">
-        {timers.map((timer: TimerType) => {
-          const isLeader = leaderId === timer.userId;
-          const savedData = localStorage.getItem("activeTodo") && timer.userId === userId;
-          return (
-            <div className="relative flex flex-col items-center text-sm" key={timer.userId}>
-              {isLeader && <LeaderIcon className="absolute -top-1 right-1.5 h-4 w-4" alt="스터디장" />}
-              {timer.isRunning || savedData ? (
-                <LightOnIcon alt={timer.nickname + "타이머 측정 하지 않는 중"} />
-              ) : (
-                <LightOffIcon alt={timer.nickname + "타이머 측정 중"} />
-              )}
-              <span className="whitespace-nowrap">{timer.nickname}</span>
-              <span className="text-xs font-medium">{formatTime(timer.timerTime)}</span>
-            </div>
-          );
-        })}
-      </section>
+      <StudyMenuList
+        isMenuOpen={isMenuOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        studyId={studyId}
+        leaderId={leaderId}
+        userId={userId}
+        hasNotice={hasNotice}
+        toggleMenu={toggleMenu}
+      />
+      {hasNotice && <NoticeSection notice={notice} />}
+      <GroupTimers timers={timers} leaderId={leaderId} userId={userId} />
       <div className="bg-main mt-1 mb-2 h-1.5 w-full" />
-      <section className="px-4">
-        <div className="flex items-center justify-between">
-          <h1 className="font-medium">
-            총 스터디 시간: <span className="font-bold">{formatTime(studyTotalTime)}</span>
-          </h1>
-          <button className="btn-sm" onClick={() => setIsAdding(true)}>
-            투두 추가
-          </button>
-        </div>
-        <ul className="mt-3 flex flex-col gap-y-2">
-          {isAdding && (
-            <li className="flex items-center gap-x-2.5">
-              <div className="flex items-center gap-x-1.5">
-                <div className="border-white-gray h-[18px] w-[18px] rounded-sm border-2" />
-                <input
-                  type="text"
-                  value={newTodo}
-                  placeholder="생성할 투두 입력후 Enter"
-                  onChange={(e) => setNewTodo(e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(e)}
-                  autoFocus
-                  className="border-main w-[196px] border-b p-1"
-                />
-              </div>
-              <button
-                className="text-dark-gray hover:text-gray cursor-pointer transition-colors"
-                onClick={() => setIsAdding(false)}
-                aria-label='lt="투두 생성 취소" '
-              >
-                <CloseIcon alt="투두 생성 취소" className="h-3 w-3" />
-              </button>
-            </li>
-          )}
-          {todos.map((todo: TodoType, index: number) => {
-            const { todoId, todoName, studyTime } = todo;
-
-            return (
-              <li key={todoId} className="flex items-center justify-between">
-                <div className="flex items-center gap-x-1.5">
-                  {isEditing && editingTodo.todoId === todoId ? (
-                    <div className="flex w-full items-center gap-x-1.5">
-                      <button
-                        className="text-dark-gray hover:text-gray cursor-pointer transition-colors"
-                        onClick={() => setIsEditing(false)}
-                        aria-label="투두 수정 취소"
-                      >
-                        <CloseIcon className="h-3.5 w-3.5" alt="투두 수정 취소" />
-                      </button>
-                      <input
-                        type="text"
-                        value={editingTodo.todoName}
-                        onChange={(e) => setEditingTodo((prev) => ({ ...prev, todoName: e.target.value }))}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            saveEdit();
-                          }
-                        }}
-                        autoFocus
-                        className="border-main max-w-[196px] border-b p-1 text-sm"
-                      />
-                    </div>
-                  ) : (
-                    <label htmlFor={`todo-${todoId}`} className="flex cursor-pointer items-center gap-2">
-                      <input
-                        id={`todo-${todoId}`}
-                        onChange={() => handleCheckboxChange(todoId, !todoStates[todoId])}
-                        checked={todoStates[todoId] || false}
-                        type="checkbox"
-                        className="checked:bg-main border-white-gray relative h-[18px] w-[18px] appearance-none rounded-sm border-2 checked:border-transparent checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 checked:after:text-white checked:after:content-['✓']"
-                      />
-                      <button
-                        className="line-clamp-2 max-w-[196px] text-sm"
-                        onClick={() => startEditing(todoId, todoName)}
-                      >
-                        {todoName}
-                      </button>
-                    </label>
-                  )}
-                </div>
-                <div className="flex items-center gap-x-2">
-                  <span className="text-sm font-medium">{formatTime(studyTime)}</span>
-                  <button
-                    aria-label={activeTodoId === todoId ? `${todoName} 타이머 중지` : `${todoName} 타이머 시작`}
-                    onClick={() => {
-                      if (activeTodoId === todoId) stopTimer(todoId);
-                      else startTimer(todoId);
-                    }}
-                    className="cursor-pointer relative"
-                  >
-                    {activeTodoId === todoId ? (
-                      <PauseIcon alt={`${todoName} 타이머 정지`} className="h-10 w-10" />
-                    ) : (
-                      <PlayIcon alt={`${todoName} 타이머 재생`} className="h-10 w-10" />
-                    )}
-                    {index === 0 && showTooltip && (
-                      <p className="absolute whitespace-nowrap right-0 shadow-md shadow-zinc-400 bg-main rounded px-2.5 py-2 text-xs font-medium text-white z-50 -bottom-[42px] after:right-3.5 tooltip">
-                        마이크로 타이머를 쉽게 시작하고 멈출 수 있어요
-                      </p>
-                    )}
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+      <TodoListSection
+        studyId={studyId}
+        userId={userId}
+        studyTotalTime={studyTotalTime}
+        todos={todos}
+        activeTodoId={activeTodoId}
+        showTooltip={showTooltip}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
+      />
     </div>
   );
 }
