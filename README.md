@@ -38,7 +38,7 @@ STUDIT는 사용자가 일정 금액을 입금하고, 정해진 시간 동안 �
 <table>
   <tr>
     <td align="center"><strong>✅ 학습 인증 및 스터디 관리</strong></td>
-    <td align="center"><strong>📊 통계 시각화 및 사용자 관리 </strong></td>
+    <td align="center"><strong>📊 사용자 관리 </strong></td>
     <td align="center"><strong>💰 포인트 내역</strong></td>
   </tr>
   <tr>
