@@ -18,6 +18,7 @@
 - **Vite**
 - **ESLint**
 - **TypeScript ESLint**
+- **Axios**
 - **MSW**
 - **Firebase**
 - **Tailwind CSS** (via `@tailwindcss/vite`)
@@ -33,7 +34,7 @@
 - **AWS(S3, CloudFront, Route 53)**
 - **Github Actions**
 
-## 🛠 주요 기능
+## 🔍 주요 기능
 
 ### ✅ 투두 리스트 & 타이머 기반 학습 인증 시스템
 - **타이머 동기화 처리**: 10초마다 서버에서 타이머 데이터를 받아와 로컬 상태와 비교 및 동기화
@@ -49,7 +50,7 @@
 - `Recharts` 기반 **커스텀 BarChart**로 평균 비교 통계 제공
 
 ### 🚀 개발 편의성 및 안정성
-- **`MSW`로 API 전면 모킹** → 백엔드 지연 시에도 개발 가능
+- `MSW`**로 API 전면 모킹** → 백엔드 지연 시에도 개발 가능
 - 각 요청에 대해 **상세 유효성 검사 및 HTTP 에러 응답 처리(400, 404 등)** 구성 → 실제 서버 환경과 유사하게 테스트
 - `Sentry`로 **프론트엔드 에러 실시간 추적**
 - **CI/CD 자동화 (`AWS S3`, `CloudFront`, `GitHub Actions`)**
