@@ -13,13 +13,14 @@
 ### 🧩 프론트 엔드
 - **React 19**
 - **React Router DOM v7**
-- **React Query (TanStack Query)**
 - **TypeScript**
 - **Vite**
 - **ESLint**
 - **TypeScript ESLint**
 - **Axios**
 - **MSW**
+- **React Query (TanStack Query)**
+- **Zustand**
 - **Firebase**
 - **Tailwind CSS** (via `@tailwindcss/vite`)
 - **Framer Motion** - 애니메이션 구현
