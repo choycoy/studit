@@ -1,11 +1,11 @@
-# 🧠 STUDIT - 학습 동기 부여 서비스
+# 🧠 스터딧(STUDIT) - 학습 동기 부여 서비스
 
 > **돈 걸고 공부하자!**  
 > 금전적 동기를 활용해 학습 집중력을 높이는 스터디 플랫폼
 
 ## 📌 개요
 
-STUDIT는 사용자가 일정 금액을 입금하고, 정해진 시간 동안 공부 인증을 수행하며 **학습 의지를 강화**할 수 있는 서비스입니다.  
+**스터딧**은 사용자가 일정 금액을 입금하고, 정해진 시간 동안 공부 인증을 수행하며 **학습 의지를 강화**할 수 있는 서비스입니다.  
 성공 시 포인트를 유지하고, 실패자의 포인트는 성공자에게 **자동 분배**됩니다.
 
 ## ⚙️ 기술 스택
@@ -18,19 +18,21 @@ STUDIT는 사용자가 일정 금액을 입금하고, 정해진 시간 동안 �
 - **Vite**
 - **ESLint**
 - **TypeScript ESLint**
+- **MSW**
+- **Firebase**
 - **Tailwind CSS** (via `@tailwindcss/vite`)
 - **Framer Motion** - 애니메이션 구현
 - **Recharts** - 차트 시각화
 - **React Slick / Slick Carousel** - 슬라이더 구현
-
-### 🛠 기타 
-- **MSW**
-- **Firebase**
 - **Sentry** - 에러 추적 및 모니터링
 - **Overlay-kit** - 모달 및 오버레이 UI 구현
 - **cosine-similarity** - 유사도 계산 유틸
 - **vite-plugin-svgr** - SVG를 React 컴포넌트로 사용
   
+### 🚀 인프라 및 CI/CD
+- **AWS(S3, CloudFront, Route 53)**
+- **Github Actions**
+
 ## 🛠 주요 기능
 
 ### ✅ 투두 리스트 & 타이머 기반 학습 인증 시스템
